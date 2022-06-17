@@ -58,6 +58,15 @@
       "method": "1. Pre-heat the oven to 200C/3C/gas 5. Add the pasata, green pepper and mushrooms to the base. Place the lid on the oven and cook for 30 minutes. 5. Serve with a slaw of your choice",
       "cookingTime": "35 min",
       "id": "6J8jXKv"
+    },
+    {
+      "title": "Vitamin",
+      "ingredients": [
+        "C"
+      ],
+      "method": "cook",
+      "cookingTime": "1 min",
+      "id": "OAoWtxI"
     }
   ]
 }
