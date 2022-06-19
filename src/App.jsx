@@ -1,49 +1,44 @@
-import React, { useEffect, useState } from "react";
-import Nav from "./components/Nav"
+import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
-import { SearchContext } from "./store/SearchContext"
-import { ThemeContext } from "./store/ThemeContext"
-import Home from "./pages/Home"
-import Detail from "./pages/Detail";
-import ThemeOptions from "./components/ThemeOptions";
-import Create from "./pages/Create";
+import Home from "./pages/home";
+import Recipe from "./pages/recipe";
+import Create from "./pages/create";
+import Search from "./pages/search";
+import Navbar from "./components/Navbar";
+import ThemeSelector from "components/ThemeSelector";
+import { useTheme } from "hooks/useTheme";
+import { useEffect } from "react";
 
 function App() {
-  const [searchText, setSearchText] = useState("")
-  const [darkTheme, setDarkTheme] = useState(false)
-  const [colorTheme, setColorTheme] = useState('purple')
-
+  const { mode } = useTheme()
   useEffect(() => {
-    darkTheme 
-      ? document.body.classList.add('dark-theme') 
-      : document.body.classList.remove('dark-theme')
-  }, [darkTheme])
+    mode === 'dark'
+      ? document.body.classList.add('dark')
+      : document.body.classList.remove('dark')
+  }, [mode])
 
   return (
-    <ThemeContext.Provider value={{darkTheme, setDarkTheme, colorTheme, setColorTheme}}>
-      <SearchContext.Provider value={{searchText, setSearchText}}>
-        <BrowserRouter>
-          <React.StrictMode>
-            <Nav />
-            <ThemeOptions />
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/recipe/:id">
-                <Detail />
-              </Route>
-              <Route path="/create">
-                <Create />
-              </Route>
-              <Route path="*">
-                <Redirect to="/" />
-              </Route>
-            </Switch>
-          </React.StrictMode>
-        </BrowserRouter>
-      </SearchContext.Provider>
-    </ThemeContext.Provider>
+    <BrowserRouter>
+      <Navbar />
+      <ThemeSelector />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/recipe/:id">
+          <Recipe />
+        </Route>
+        <Route path="/create">
+          <Create />
+        </Route>
+        <Route path="/search">
+          <Search />
+        </Route>
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
