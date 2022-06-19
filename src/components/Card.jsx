@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { ThemeContext } from "../store/ThemeContext"
+import { useTheme } from '../hooks/useTheme'
 
 export default function Card({ recipe }) {
-  const { darkTheme } = useContext(ThemeContext)
+  const { darkTheme } = useTheme()
 
   return (
     <div className={`${darkTheme ? 'bg-zinc-600' : 'bg-white'} rounded p-4 shadow hover:rotate-3 duration-300`}>

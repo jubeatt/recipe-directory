@@ -78,6 +78,7 @@ body.dark-theme {
 }
 
 input[type="text"]:disabled,
+input[type="number"]:disabled,
 textarea:disabled {
   background-color:#f3f4f6;
 }

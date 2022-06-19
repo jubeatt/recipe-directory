@@ -28,7 +28,7 @@
 - RWD
 - react-router-dom
 - json-server
-- useContext / useEffect
+- useContext / useReducer
 
 ## 運行方式
 

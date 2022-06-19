@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
-import { ThemeContext } from '../store/ThemeContext'
+import React from 'react'
+import { useTheme } from '../hooks/useTheme'
 export default function CardDetail({ recipe }) {
-  const { darkTheme } = useContext(ThemeContext)
+  const { darkTheme } = useTheme()
 
   return (
     <div className={`${darkTheme ? 'bg-zinc-600' : 'bg-white'} rounded p-8 shadow`}>

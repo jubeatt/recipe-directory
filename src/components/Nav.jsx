@@ -1,20 +1,22 @@
-import React, { useContext, useRef } from 'react'
-import { SearchContext } from '../store/SearchContext'
-import { Link } from 'react-router-dom'
-import { ThemeContext } from '../store/ThemeContext'
+import React, { useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { colorScheme } from "../theme/colorScheme"
+import { useTheme } from '../hooks/useTheme'
+import { useSearch } from '../hooks/useSearch'
 
 export default function Nav() {
-  const { colorTheme } = useContext(ThemeContext)
-  const { setSearchText } = useContext(SearchContext)
+  const location = useLocation()
+  const { colorTheme } = useTheme()
+  const { searchBy } = useSearch()
   const delay = useRef(400)
   const timer = useRef(null)
   const inputRef = useRef()
   // debounce
   const handleSearch = () => {
     timer.current && clearTimeout(timer.current)
-    timer.current = setTimeout(() => setSearchText(inputRef.current.value), delay.current)
+    timer.current = setTimeout(() => searchBy(inputRef.current.value), delay.current)
   }
+
   return (
     <div className={`${colorScheme[colorTheme]['bg']} py-4 duration-300`}>
       <div className='container md:flex md:items-center'>
@@ -27,6 +29,7 @@ export default function Nav() {
                 className='text-slate-700 border-0 rounded px-2 py-1 focus:outline-slate-700'
                 type="text"
                 ref={inputRef}
+                disabled={location.pathname !== '/'}
                 onChange={handleSearch}
               />
             </label>

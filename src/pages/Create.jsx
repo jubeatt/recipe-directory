@@ -1,12 +1,12 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { useHistory } from "react-router-dom"
-import { ThemeContext } from '../store/ThemeContext'
+import { useTheme } from '../hooks/useTheme'
 import { colorScheme } from "../theme/colorScheme"
 
 const Label = ({ text }) => {
-  const { darkTheme } = useContext(ThemeContext)
-  return <div className={`${darkTheme ? 'label-dark' : 'label'}`}>{text}</div>
+  const { darkTheme } = useTheme()
+  return <div className={`  ${darkTheme ? 'label-dark' : 'label'}`}>{text}</div>
 }
 
 const FormField = ({ type, value, disabled, onChange, ...props}) => {
@@ -31,12 +31,22 @@ const FormField = ({ type, value, disabled, onChange, ...props}) => {
         {...props}
       ></textarea>
     )
+  } else if (type === 'number') {
+    return (
+      <input 
+        className="input-field"
+        disabled={disabled}
+        type={type}
+        value={value}
+        onChange={onChange}
+        {...props}
+      />
+    )
   }
 }
 
 export default function Create() {
-  const { colorTheme } = useContext(ThemeContext)
-  const { darkTheme } = useContext(ThemeContext)
+  const { darkTheme, colorTheme } = useTheme()
 
   const [title, setTitle] = useState("")
   const [ingredientsInput, setIngredientsInput] = useState("")
@@ -46,28 +56,23 @@ export default function Create() {
   const [loading, setLoading] = useState(false)
   
   const history = useHistory()
-  const initRequest = useRef({
-    title: '',
-    ingredients: [],
-    method: '',
-    cookingTime: ''
-  })
 
   const resetState = () => {
     setTitle("")
     setIngredientsInput("")
     setMethod("")
     setCookingTime("")
-    initRequest.current = {
+    setLoading(false)
+  }
+
+  const addNewRecipe = (e) => {
+    e.preventDefault()
+    const data = {
       title,
       ingredients,
       method,
       cookingTime
     }
-    setLoading(false)
-  }
-
-  const addNewRecipe = (data) => {
     setLoading(true)
     fetch('http://localhost:3000/recipes', {
       method: 'post',
@@ -88,15 +93,15 @@ export default function Create() {
 
   return (
     <div className='pb-10'>
-      <form className='container-sm'>
+      <form className='container-sm' onSubmit={addNewRecipe}>
         <h2 className={`${darkTheme ? 'text-white' : 'text-slate-700'}  text-center font-bold text-4xl mb-4`}>Add New Recipe</h2>
         <div className='mb-4'>
           <Label text="Recipe Title:"/>
-          <div className={`${darkTheme ? 'label-dark' : 'label'}`}></div>
           <FormField
             type="text"
             disabled={loading}
             value={title}
+            required={true}
             onChange={e => setTitle(e.target.value)}
           />
         </div>
@@ -114,8 +119,12 @@ export default function Create() {
               className={`${colorScheme[colorTheme]['bg']} ${colorScheme[colorTheme]['hover']} duration-300 py-1 px-4 rounded text-white`}
               onClick={e => {
                 e.preventDefault()
+                const newIngredient = ingredientsInput.trim()
+                // validation
+                newIngredient
+                  && !ingredients.includes(newIngredient) 
+                  && setIngredients(prev => [...prev, newIngredient])
                 setIngredientsInput("")
-                setIngredients(prev => [...prev, ingredientsInput])
               }}
             >
               add
@@ -129,15 +138,17 @@ export default function Create() {
             type="textarea"
             disabled={loading}
             value={method}
+            required={true}
             onChange={e => setMethod(e.target.value)}
           />
         </div>
         <div className='mb-4'>
           <Label text="Cooking Time (minutes):"/>
           <FormField
-            type="text"
+            type="number"
             disabled={loading}
             value={cookingTime}
+            required={true}
             onChange={e => setCookingTime(e.target.value)}
           />
         </div>
@@ -145,16 +156,6 @@ export default function Create() {
           <button
             disabled={loading}
             className={`${colorScheme[colorTheme]['bg']} ${colorScheme[colorTheme]['hover']} duration-300 inline-flex gap-2 items-center py-1 px-4 rounded text-white`}
-            onClick={e => {
-              e.preventDefault()
-              initRequest.current = {
-                title,
-                ingredients,
-                method,
-                cookingTime
-              }
-              addNewRecipe(initRequest.current)
-            }}
           >
             <span>submit</span>
             {loading &&

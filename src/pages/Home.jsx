@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
-import { SearchContext } from '../store/SearchContext'
+import React from 'react'
 import { useFetch } from '../hooks/useFetch'
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { BsExclamationCircleFill } from "react-icons/bs"
 import Card from '../components/Card'
-import { ThemeContext } from '../store/ThemeContext'
+import { useTheme } from '../hooks/useTheme'
+import { useSearch } from '../hooks/useSearch'
 
 export default function Home() {
-  const { darkTheme } = useContext(ThemeContext)
-  const { searchText } = useContext(SearchContext)
+  const { darkTheme } = useTheme()
+  const { searchText } = useSearch()
   const { data: recipes, isPending, error } = useFetch(`http://localhost:3000/recipes?title_like=${searchText}`)
 
   return (
