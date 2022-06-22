@@ -35,7 +35,7 @@ export default function Nav() {
             </label>
           </div>
           <div className='text-center'>
-            <Link to="/create" className='inline-block border border-white font-medium text-white bg-transparent rounded px-1 py-2 hover:bg-white hover:text-violet-700 duration-300'>Create Recipe</Link>
+            <Link to="/create" className={`${colorScheme[colorTheme]['hoverText']} inline-block border border-white font-medium text-white bg-transparent rounded px-1 py-2 hover:bg-white duration-300`}>Create Recipe</Link>
           </div>
         </div>
       </div>

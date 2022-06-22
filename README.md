@@ -17,6 +17,8 @@
 - 食譜的詳細頁面
 - 關鍵字搜尋
 - 新增食譜
+- 編輯食譜
+- 刪除食譜
 - 切換背景主題（主題色 / 夜間模式）
 
 ![demo](demo.gif)
@@ -27,12 +29,13 @@
 - Tailwind
 - RWD
 - react-router-dom
-- json-server
+- Firebase
 - useContext / useReducer
+- Custom hook
 
 ## 運行方式
 
-附註：請先確保你的電腦已經安裝 json-server，否則請先透過 `npm install -g json-server` 來安裝。
+此專案使用 Firebase 作為資料庫，所以請先自行跑完相關申請流程。
 
 1\. 安裝專案的 dependencies
 
@@ -40,10 +43,27 @@
 npm install
 ```
 
-2\. 開啟 json-server
+2\. 建立 `./src/firebase/config.js` 檔案，並填入你的 Firebase 資訊：
 
-```bash
-json-server data/db.json 
+```js
+import firebase from "firebase/app"
+import 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "..."
+}
+
+// init firebase
+firebase.initializeApp(firebaseConfig)
+// init firestore
+const db = firebase.firestore()
+
+export { db }
 ```
 
 3\. 啟動開發環境
