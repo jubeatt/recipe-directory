@@ -29,7 +29,7 @@ export default function Create() {
 
   const handleSubmit = (e) => {
     addNewRecipe(e)
-      .then(() => history.push('/recipe-directory'))
+      .then(() => history.push('/'))
       .catch(errorMessage => console.log(errorMessage))
   }
 

@@ -19,7 +19,7 @@ export default function Card({ recipe }) {
       <div className='text-center mt-4'>
         <Link 
           className={`${darkTheme ? 'text-gray-500 bg-white hover:bg-gray-400 hover:text-white' : 'text-gray-500 bg-gray-200 hover:bg-gray-300'} inline-block rounded px-4 py-2 duration-300`}
-          to={`/recipe-directory/recipe/${recipe.id}`}
+          to={`/recipe/${recipe.id}`}
         >
           Cook This
         </Link>

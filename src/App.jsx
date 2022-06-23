@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Nav from "./components/Nav"
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
+import { HashRouter, Switch, Route, Redirect } from "react-router-dom"
 import Home from "./pages/Home"
 import Detail from "./pages/Detail";
 import ThemeOptions from "./components/ThemeOptions";
@@ -17,24 +17,24 @@ function App() {
   }, [darkTheme])
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Nav />
       <ThemeOptions />
       <Switch>
-        <Route exact path="/recipe-directory">
+        <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/recipe-directory/recipe/:id">
+        <Route path="/recipe/:id">
           <Detail />
         </Route>
-        <Route path="/recipe-directory/create">
+        <Route path="/create">
           <Create />
         </Route>
         <Route path="*">
           <Redirect to="/" />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

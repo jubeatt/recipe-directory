@@ -14,8 +14,10 @@ export default function Home() {
   const backupRecipes = useRef(null)
   const [isPending, setIsPending] = useState(false)
   const [error, setError] = useState(null)
+  const isInit = useRef(false)
 
   useEffect(() => {
+    if (!isInit.current) return
     setIsPending(true)
     setTimeout(() => {
       setIsPending(false)
@@ -42,10 +44,12 @@ export default function Home() {
             ...doc.data()
           })
         })
+        isInit.current = true
         setRecipes(response)
         backupRecipes.current = response
         setIsPending(false)
     }, (error) => {
+      isInit.current = true
       setError(error.message)
       setIsPending(false)
     })
