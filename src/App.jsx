@@ -21,13 +21,13 @@ function App() {
       <Nav />
       <ThemeOptions />
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/recipe-directory">
           <Home />
         </Route>
-        <Route path="/recipe/:id">
+        <Route path="/recipe-directory/recipe/:id">
           <Detail />
         </Route>
-        <Route path="/create">
+        <Route path="/recipe-directory/create">
           <Create />
         </Route>
         <Route path="*">
